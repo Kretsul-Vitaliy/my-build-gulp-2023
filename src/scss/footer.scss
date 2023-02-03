@@ -1,0 +1,51 @@
+.footer {
+    background-color: #333333;
+    height: 110px;
+    align-self: center;
+    text-align: center;
+    width: 100%;
+
+    &__container {
+    }
+
+    &__list {
+        font-size: 35px;
+        padding-top: 20px;
+    }
+    &__list-tem {
+        display: inline-block;
+        &:not(:last-child) {
+            margin-right: 25px;
+            @media (min-width: $mobile) {
+            }
+            @media (min-width: $pc) {
+            }
+        }
+    }
+
+    &__link {
+        transition: All 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        &:hover,
+        &:focus {
+            color: $backgroundOne;
+        }
+    }
+    &__copyright {
+        font-size: 16px;
+        line-height: 22px;
+        text-align: center;
+        padding-top: 10px;
+        @media (min-width: $mobile) {
+            font-size: 18px;
+            line-height: 25px;
+        }
+    }
+}
+.icon-facebook {
+}
+.icon-twitter {
+}
+.icon-youtube {
+}
+.icon-linkedin-in {
+}

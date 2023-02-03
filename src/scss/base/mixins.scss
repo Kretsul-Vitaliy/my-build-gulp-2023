@@ -1,0 +1,100 @@
+//Font connection
+@mixin font($font_name, $file_name, $weight, $style) {
+    @font-face {
+        font-family: $font_name;
+        font-display: swap;
+        src: url("../fonts/#{$file_name}.woff2") format("woff2"),
+            url("../fonts/#{$file_name}.woff") format("woff");
+        font-weight: #{$weight};
+        font-style: #{$style};
+    }
+}
+//Percent
+@function percent($px, $from) {
+    $result: math.div($px, $from) * 100%;
+    @return $result;
+}
+//REM
+@function rem($px) {
+    $result: math.div($px, 16) + rem;
+    @return $result;
+}
+//EM
+@function em($px, $current: 16) {
+    $result: math.div($px, $current) + em;
+    @return $result;
+}
+//Adaptive property
+@mixin adaptiveValue(
+    $property,
+    $startSize,
+    $minSize,
+    $widthFrom: $containerWidth,
+    $widthTo: $minWidth,
+    $keepSize: 0
+) {
+    // Break points in EM
+    $widthFromMedia: em($widthFrom);
+    $widthToMedia: em($widthTo);
+    // Initial and final value in REM
+    $minSizeValue: rem($minSize);
+    $startSizeValue: rem($startSize);
+    // Count the variables relatively
+    // default font size
+    $minWidth: math.div($minWidth, 16);
+    $maxWidth: math.div($maxWidth, 16);
+    $containerWidth: math.div($containerWidth, 16);
+    $addSize: math.div($startSize - $minSize, 16);
+    $widthTo: math.div($widthTo, 16);
+    $widthFrom: math.div($widthFrom, 16);
+    // If a restriction is specified in the container,
+    // either the starting or final width is specified
+    // turn on the mode of operation in the range of widths
+    @if ($maxWidthContainer > 0 or $widthFrom != $containerWidth or $widthTo != $minWidth) and
+        $widthFrom >
+        $widthTo
+    {
+        // If the starting width is equal to the width of the container + indents,
+        // or the specified "keepSize" setting, we set the value
+        // by default equal to the starting size
+        @if $widthFrom == $containerWidth or $keepSize == 1 or $keepSize == 2 {
+            @media (min-width: $widthFromMedia) {
+                #{$property}: $startSizeValue;
+            }
+        }
+        // Adapt the size in the space between the specified widths of the viewport
+        @media (min-width: $widthToMedia) and (max-width: $widthFromMedia) {
+            #{$property}: calc(
+                #{$minSizeValue} + #{$addSize} *
+                    (((100vw - #{$widthTo + rem})) / ((#{$widthFrom - $widthTo})))
+            );
+        }
+        // If the final width is equal to the minimum width
+        // or the specified "keepSize" setting, we set the value
+        // by default is equal to the final size
+        @if $widthTo == $minWidth or $keepSize == 1 or $keepSize == 3 {
+            @media (max-width: $widthToMedia) {
+                #{$property}: $minSizeValue;
+            }
+        }
+    } @else {
+        // Operating mode across the entire width of the viewport
+        #{$property}: calc(
+            #{$minSizeValue} +
+                #{$addSize} *
+                (((100vw - #{$widthTo + rem})) / ((#{$maxWidth - $widthTo})))
+        );
+    }
+}
+//Currency
+@mixin currency($sym) {
+    &::after {
+        content: "#{$sym}";
+    }
+}
+// Grids
+@mixin gridCards($type: fit, $min: 280px, $max: 1fr, $gap: 30px) {
+    display: grid;
+    gap: $gap;
+    grid-template-columns: repeat(auto-#{$type}, minmax($min, $max));
+}

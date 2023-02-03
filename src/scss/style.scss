@@ -1,0 +1,142 @@
+@use "sass:math";
+
+// Connecting mixins ===========================================================================================================================================================================================================================================================================
+@import "base/mixins";
+
+@import "fonts";
+@import "icons";
+
+// default
+$fontFamily: "OpenSans", sans-serif;
+$fontSize: 18px;
+
+// Primary font color
+$mainColor: #fff;
+$fontColorSecond: #333;
+$mainDark: #0c0b08;
+$mainYellow: #dcca87;
+$mainGray: #46434366;
+$mainDarkYellow: #ac9a5a;
+$mainWhite: #fff;
+$heroLogo: #28a745;
+$backgroundOne: #28a745;
+$backgroundForm: #f4f4f4;
+$buttonOne: #28a745;
+$buttonBlog: #0284d0;
+$heroLogoActive: #2ebf4f;
+$backgroundBlog: #0284d0;
+
+// SETTINGS ===============================================================================================================================================================================================================================================================================================
+// Minimum Page Width
+$minWidth: 320;
+// Canvas width (layout)
+$maxWidth: 1360;
+// Bounding container width (0 = no limit)
+$maxWidthContainer: 1300;
+// Container's overall padding
+// (30 = 15px left and right, 0 = no padding)
+$containerPadding: 30;
+
+// Adaptive type:
+// 1 = responsive (container has no breakpoints),
+// 2 = by break points (container changes its width by break points)
+$responsiveType: 1;
+
+// The width of the first breakpoint
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// break points
+$pc: em($containerWidth); // PCs, laptops, some tablets horizontally
+$tablet: em(991.98); // Tablets, some phones in landscape position
+$mobile: em(767.98); // Phones L
+$mobileSmall: em(479.98); // Phones S
+
+// Zeroing and general parameters ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
+@import "base/null";
+
+body {
+    color: $mainColor;
+    background-color: $mainDark;
+    line-height: 25px;
+    // Scroll blocked
+    .lock & {
+        overflow: hidden;
+        touch-action: none;
+    }
+}
+
+// shell(container) ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    // The site is loaded
+    .loaded & {
+    }
+    // Press the footer
+    > main {
+        position: relative;
+        z-index: 2;
+        flex: 1 1 auto;
+    }
+    // Fix for sliders
+    > * {
+        min-width: 0;
+    }
+}
+
+// Bounding container ======================================================================================================================================================================================================================
+
+/*
+(i) Styles will apply to
+to all classes containing *__container
+For example, header__container, main__container, etc.
+Snippet (HTML): cnt
+*/
+@if ($responsiveType==1) {
+    // Responsive
+    [class*="__container"] {
+        position: relative;
+        z-index: 2;
+        @if ($maxWidthContainer>0) {
+            max-width: rem($maxWidthContainer);
+            box-sizing: content-box;
+            margin: 0 auto;
+        }
+        @if ($containerPadding>0) {
+            padding: 0 rem(math.div($containerPadding, 2));
+        }
+    }
+    [class*="__container_wide"] {
+        max-width: rem(1680);
+    }
+} @else {
+    // By break points
+    [class*="__container"] {
+        margin: 0 auto;
+        @if ($maxWidthContainer>0) {
+            max-width: rem($maxWidthContainer);
+            box-sizing: content-box;
+        } @else {
+            @if ($containerPadding>0) {
+                padding: 0 rem(math.div($containerPadding, 2));
+            }
+        }
+        @media (max-width: $pc) {
+            max-width: rem(970);
+        }
+        @media (max-width: $tablet) {
+            max-width: rem(750);
+        }
+        @media (max-width: $mobile) {
+            max-width: none;
+            @if ($containerPadding>0 and $maxWidthContainer>0) {
+                padding: 0 rem(math.div($containerPadding, 2));
+            }
+        }
+    }
+}
+// include scss project
+@import "header";
+@import "footer";

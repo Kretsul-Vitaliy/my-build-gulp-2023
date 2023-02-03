@@ -1,0 +1,46 @@
+@font-face {
+    font-family: "icons";
+    src: url("../fonts/icons.eot?re7qbp");
+    src: url("../fonts/icons.eot?re7qbp#iefix") format("embedded-opentype"), url("../fonts/icons.ttf?re7qbp") format("truetype"), url("../fonts/icons.woff?re7qbp") format("woff"), url("../fonts/icons.woff2?re7qbp") format("woff2"), url("../fonts/icons.svg?re7qbp#icons") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class*="icon-"]::before {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: "icons" !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-facebook:before {
+    content: "\e900";
+}
+.icon-twitter:before {
+    content: "\e901";
+}
+.icon-youtube:before {
+    content: "\e902";
+}
+.icon-linkedin-in:before {
+    content: "\e903";
+}
+.icon-book-open:before {
+    content: "\e904";
+}
+.icon-angle-right:before {
+    content: "\e905";
+}
+.icon-worning:before {
+    content: "\e906";
+    color: #eb5757;
+    margin-right: 5px;
+}
